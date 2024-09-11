@@ -1,10 +1,13 @@
 import {View,Text} from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
+import {useLocalSearchParams} from "expo-router";
 
 const Query=()=>{
+        const{query} =useLocalSearchParams()
     return(
-        <View>
+        <SafeAreaView className={"h-full bg-primary"}>
             <Text>Query</Text>
-        </View>
+        </SafeAreaView>
     )
 }
 export default Query;

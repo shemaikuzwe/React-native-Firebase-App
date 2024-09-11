@@ -1,19 +1,40 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Image, ScrollView, View, Text } from "react-native";
+import {Image, ScrollView, View, Text, Alert} from "react-native";
 import { images } from "@/constants";
 import FormField from "@/components/FormField";
 import { useState } from "react";
 import Button from "../../components/Button";
-import {Link} from "expo-router";
-const signIn = () => {
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
-  const [isLoading,setIsLoading]=useState(false)
-  const handleSubmit=()=>{
+import {Link, router} from "expo-router";
+import {getAuth,signInWithEmailAndPassword} from "firebase/auth"
+import {app} from "../../firebaseConfig"
+import {useSession} from "../../components/context/UserContextProvider";
 
-  }
+
+const signIn = () => {
+    const [form, setForm] = useState({
+      email: "",
+       password: "",
+    });
+    const [isLoading,setIsLoading]=useState(false)
+    const {setUser}=useSession()
+    const auth=getAuth(app);
+
+    const handleSubmit=async ()=>{
+
+        if (!form.email || !form.password){
+            return  Alert.alert("error","Please fill in all fields.");
+        }
+       try {
+            setIsLoading(true)
+           const userCredential=await signInWithEmailAndPassword(auth,form.email,form.password);
+           setUser(userCredential.user);
+           setIsLoading(false)
+           return router.push("/home");
+       }catch (e){
+            setIsLoading(false)
+          Alert.alert("error",e.message)
+       }
+    }
   return (
     <SafeAreaView className={"bg-primary h-full"}>
       <ScrollView>
