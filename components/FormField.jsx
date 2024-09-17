@@ -16,6 +16,7 @@ const FormField = ({
       <Text className={"text-base text-gray-100 font-pmedium capitalize"}>
         {title}
       </Text>
+      
       <View
         className={`w-full border-2 h-16 px-4 py-2 border-black-200 bg-black-100 rounded-2xl focus:border-secondary flex-row`}
       >
